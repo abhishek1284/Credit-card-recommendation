@@ -11,13 +11,12 @@ st.title("Credit Card Approval Predictor")
 
 # Section 1: Single Prediction
 st.header("🔹 Predict for a Single User")
-
-income = st.number_input("Annual Income", min_value=10000)
+income = st.number_input("Annual Income", min_value=1000)
 home_ownership = st.selectbox("Home Ownership", ["RENT", "OWN", "MORTGAGE", "OTHER"])
 emp_length = st.slider("Employment Length (years)", 0, 10)
 loan_intent = st.selectbox("Loan Intent", ["EDUCATION", "MEDICAL", "VENTURE", "PERSONAL", "DEBTCONSOLIDATION", "HOMEIMPROVEMENT"])
 loan_grade = st.selectbox("Loan Grade", ["A", "B", "C", "D", "E", "F", "G"])
-loan_amnt = st.number_input("Loan Amount", min_value=60000)
+loan_amnt = st.number_input("Loan Amount", min_value=1000)
 int_rate = st.slider("Interest Rate (%)", 5.0, 40.0)
 default_on_file = st.selectbox("Previous Default on File", ["Y", "N"])
 cred_hist = st.slider("Credit History Length (years)", 0, 30)
@@ -54,7 +53,7 @@ if st.button("Predict Approval for Single User"):
     st.success("Approved!" if prediction == 1 else "Rejected")
 
 # Section 2: Batch Prediction
-st.header("📂 Predict from CSV File")
+st.header(" Predict from CSV File")
 
 uploaded_file = st.file_uploader("Upload CSV File", type=["csv"])
 
@@ -80,16 +79,16 @@ if uploaded_file:
     predictions = model.predict(processed_data)
     raw_data['Approval_Status'] = ['Approved' if pred == 1 else 'Rejected' for pred in predictions]
 
-    st.subheader("📋 Prediction Results")
+    st.subheader(" Prediction Results")
     st.dataframe(raw_data)
 
     approved = raw_data[raw_data['Approval_Status'] == 'Approved']
-    st.subheader("✅ List of People to Give Credit Cards")
+    st.subheader(" List of People to Give Credit Cards")
     st.dataframe(approved)
 
     # Show count of approved credit cards
-    st.info(f"✅ Total Approved Credit Cards: {len(approved)}")
+    st.info(f"Total Approved Credit Cards: {len(approved)}")
 
     # Allow CSV download
     csv = approved.to_csv(index=False).encode('utf-8')
-    st.download_button("📥 Download Approved List", data=csv, file_name='approved_applicants.csv', mime='text/csv')
+    st.download_button(" Download Approved List", data=csv, file_name='approved_applicants.csv', mime='text/csv')
